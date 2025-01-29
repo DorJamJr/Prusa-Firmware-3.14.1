@@ -78,18 +78,25 @@ const float bed_skew_angle_extreme = (0.25f * M_PI / 180.f);
  * MK2: center front, center right, center rear, center left.
  * MK25 and MK3: front left, front right, rear right, rear left
  */
+// JRA 112524
+// Define base locations for calibration points here for ease of modification
+#define JRA_X0 23.f     //was 31.f  // was 37.f
+#define JRA_X1 213.f    // was 221.f  // was 227.f  // was 245.f
+#define JRA_Y0 12.4f    // was 18.4f
+#define JRA_Y1 184.f    // was 190.4f // was 210.4f
+
 const float bed_ref_points_4[] PROGMEM = {
-	37.f - BED_PRINT_ZERO_REF_X - X_PROBE_OFFSET_FROM_EXTRUDER - SHEET_PRINT_ZERO_REF_X,
-	18.4f - BED_PRINT_ZERO_REF_Y - Y_PROBE_OFFSET_FROM_EXTRUDER - SHEET_PRINT_ZERO_REF_Y,
+    JRA_X0 - BED_PRINT_ZERO_REF_X - X_PROBE_OFFSET_FROM_EXTRUDER - SHEET_PRINT_ZERO_REF_X,
+    JRA_Y0 - BED_PRINT_ZERO_REF_Y - Y_PROBE_OFFSET_FROM_EXTRUDER - SHEET_PRINT_ZERO_REF_Y,
 
-	245.f - BED_PRINT_ZERO_REF_X - X_PROBE_OFFSET_FROM_EXTRUDER  - SHEET_PRINT_ZERO_REF_X,
-	18.4f - BED_PRINT_ZERO_REF_Y - Y_PROBE_OFFSET_FROM_EXTRUDER - SHEET_PRINT_ZERO_REF_Y,
+    JRA_X1 - BED_PRINT_ZERO_REF_X - X_PROBE_OFFSET_FROM_EXTRUDER  - SHEET_PRINT_ZERO_REF_X,
+    JRA_Y0 - BED_PRINT_ZERO_REF_Y - Y_PROBE_OFFSET_FROM_EXTRUDER - SHEET_PRINT_ZERO_REF_Y,
 
-	245.f - BED_PRINT_ZERO_REF_X - X_PROBE_OFFSET_FROM_EXTRUDER  - SHEET_PRINT_ZERO_REF_X,
-	210.4f - BED_PRINT_ZERO_REF_Y - Y_PROBE_OFFSET_FROM_EXTRUDER - SHEET_PRINT_ZERO_REF_Y,
+    JRA_X1 - BED_PRINT_ZERO_REF_X - X_PROBE_OFFSET_FROM_EXTRUDER  - SHEET_PRINT_ZERO_REF_X,
+    JRA_Y1 - BED_PRINT_ZERO_REF_Y - Y_PROBE_OFFSET_FROM_EXTRUDER - SHEET_PRINT_ZERO_REF_Y,
 
-	37.f - BED_PRINT_ZERO_REF_X - X_PROBE_OFFSET_FROM_EXTRUDER  - SHEET_PRINT_ZERO_REF_X,
-	210.4f - BED_PRINT_ZERO_REF_Y - Y_PROBE_OFFSET_FROM_EXTRUDER - SHEET_PRINT_ZERO_REF_Y
+    JRA_X0 - BED_PRINT_ZERO_REF_X - X_PROBE_OFFSET_FROM_EXTRUDER  - SHEET_PRINT_ZERO_REF_X,
+    JRA_Y1 - BED_PRINT_ZERO_REF_Y - Y_PROBE_OFFSET_FROM_EXTRUDER - SHEET_PRINT_ZERO_REF_Y
 };
 
 #else
@@ -681,6 +688,17 @@ bool is_bed_z_jitter_data_valid()
 
 static void world2machine_update(const float vec_x[2], const float vec_y[2], const float cntr[2])
 {
+    // JRA 112524
+    // BYPASS rotation/skew correction for non-prusa heat bed
+    world2machine_correction_mode = WORLD2MACHINE_CORRECTION_NONE;
+    world2machine_rotation_and_skew[0][0] = 1.f;
+    world2machine_rotation_and_skew[1][0] = 0.f;
+    world2machine_rotation_and_skew[0][1] = 0.f;
+    world2machine_rotation_and_skew[1][1] = 1.f;
+    return;
+
+    // JRA this code is never reached
+
     world2machine_rotation_and_skew[0][0] = vec_x[0];
     world2machine_rotation_and_skew[1][0] = vec_x[1];
     world2machine_rotation_and_skew[0][1] = vec_y[0];

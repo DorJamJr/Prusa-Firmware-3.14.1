@@ -1528,10 +1528,17 @@ void setup()
           // aborted or missing wizard: show a single warning
           lcd_show_fullscreen_message_and_wait_P(_T(MSG_FOLLOW_CALIBRATION_FLOW));
       }
+/*  JRA 012925
+// JRA - in the Craig C3, we can't use the xyz cal method due to non-PRUSA heat bed...
+//       so  we adjust the mechanics using a 190mm printed square instead and
+//       bypass the the calibration message
+    
       else if (!calibration_status_get(CALIBRATION_STATUS_Z)) {
           // wizard reset after service prep
           lcd_show_fullscreen_message_and_wait_P(_T(MSG_FOLLOW_Z_CALIBRATION_FLOW));
-      } else {
+      } 
+*/      
+      else {
           // warn about other important steps individually
           if (!calibration_status_get(CALIBRATION_STATUS_LIVE_ADJUST))
               lcd_show_fullscreen_message_and_wait_P(_T(MSG_BABYSTEP_Z_NOT_SET));

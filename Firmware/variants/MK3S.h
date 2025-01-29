@@ -290,7 +290,8 @@
 #define TMC2130_STEALTH_Z
 #define TMC2130_DEDGE_STEPPING
 
-//#define TMC2130_SERVICE_CODES_M910_M918
+// JRA 112524 - uncomment
+#define TMC2130_SERVICE_CODES_M910_M918
 
 //#define TMC2130_DEBUG
 //#define TMC2130_DEBUG_WR
@@ -667,7 +668,8 @@
 
 #define M600_TIMEOUT 600  //seconds
 
-//#define SUPPORT_VERBOSITY
+// JRA 112524 uncomment
+#define SUPPORT_VERBOSITY
 
 #define MMU_CONFIG_FILE "mmu2/variants/config_MMU2S.h"
 #define MMU_FILAMENT_COUNT 5

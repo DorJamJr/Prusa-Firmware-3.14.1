@@ -9,7 +9,9 @@
 
 #define BED_X0 (2.f - BED_ZERO_REF_X) //1
 #define BED_Y0 (9.4f - BED_ZERO_REF_Y) //1
-#define BED_Xn (206.f - BED_ZERO_REF_X) //205
+// JRA - 012925
+//#define BED_Xn (206.f - BED_ZERO_REF_X) //205
+#define BED_Xn (201.f - BED_ZERO_REF_X) //205 - was 206.f JRA - Craig3 uses Ender heated so 5mm narrower
 #define BED_Yn (213.4f - BED_ZERO_REF_Y) //205
 
 #else
